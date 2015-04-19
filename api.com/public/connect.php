@@ -1,6 +1,6 @@
 ﻿<?php
 
-$db_host		= '156.17.41.238';
+$db_host		= '127.0.0.1';
 $db_user		= 'root';
 $db_pass		= 'pingwin123';
 $db_database	= 'neurogear'; 
