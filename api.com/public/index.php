@@ -4,6 +4,7 @@ require 'connect.php';
 
 $app = new Micro();
 
+
 $app->get('/plate/{number}', function ($number) {
         
     // Local variables
@@ -73,18 +74,39 @@ $app->get('/plate/{number}', function ($number) {
     return $response;
 });
 
-$app->put('/ticket/{plate_number}', function ($plate_number) {
+$app->post('/ticket', function() use ($app) {
     
-    // Create a JSON response
-    $response = new Phalcon\Http\Response();
-    $response->setContentType('application/json', 'UTF-8');
-    
-    $statusCode = 0;
+    // Local variables
+    $statusCode = 404;
     $statusMessage = "";
     $jsonStatus = "";
     $jsonData = null;
     $jsonMessage = "";
     
+    // Get request content
+    $ticket =  $app->request->getJsonRawBody();
+    
+    // Insert parking ticket to database.
+    $query = "INSERT INTO mandat(nr_rej, link_do_zdj) VALUES ('$ticket->plate', '$ticket->image')";
+    $result = mysql_query($query) or die(mysql_error());
+    
+    // If INSERT success
+    if($result == true)
+    {
+        $statusCode = 201;
+        $statusMessage = "Success";
+        $jsonStatus = "Success";
+        $jsonData = null;
+        $jsonMessage = "New parking ticket has been successfully added to database,";
+    } // If INSERT fails
+    else
+    {
+        $statusCode = 400;
+        $statusMessage = "Operation failed";
+        $jsonStatus = "Operation failed";
+        $jsonData = null;
+        $jsonMessage = "SQL Message: ".$result;
+    }
     
     // Set response configuration.
     $response = createJsonResponse($statusCode, $statusMessage,
