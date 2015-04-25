@@ -5,10 +5,13 @@ require 'connect.php';
 $app = new Micro();
 
 $app->get('/plate/{number}', function ($number) {
-    
-    // Create a JSON response
-    $response = new Phalcon\Http\Response();
-    $response->setContentType('application/json', 'UTF-8');
+        
+    // Local variables
+    $statusCode = 0;
+    $statusMessage = "";
+    $jsonStatus = "";
+    $jsonData = null;
+    $jsonMessage = "";
     
     // Get car id which has registration plate = $number
     $query = "SELECT auto_id FROM auto WHERE nr_rej = '$number'";
@@ -20,23 +23,22 @@ $app->get('/plate/{number}', function ($number) {
     // If no car is found with specified registration plate then
     if($nmbr == 0)
     {
-        // Change the HTTP status
-        $response = createJsonResponse(404,
-                "Not found!",
-                'Not found',
-                null,
-                "No registration plate in database!");
+        // Set the HTTP status
+        $statusCode = 404;
+        $statusMessage = "Not found!";
+        $jsonStatus = 'Not found';
+        $jsonData = null;
+        $jsonMessage = "No registration plate in database!";
     }
     else // Check whether the found car has a valid subscription
     {
-        // Change the HTTP status
-        $response = createJsonResponse(302,
-                "Found not valid subscription!",
-                'Not valid',
-                null,
-                "Registration plate: $number has not valid subscription.");
+        // Set the HTTP status
+        $statusCode = 302;
+        $statusMessage = "Found not valid subscription!";
+        $jsonStatus = 'Not found';
+        $jsonData = null;
+        $jsonMessage = "Registration plate: $number has not valid subscription.";
         
-
         $auto_row = mysql_fetch_array($result); 
         $id = $auto_row['auto_id'];
         
@@ -47,21 +49,46 @@ $app->get('/plate/{number}', function ($number) {
         while ($subscriptions = mysql_fetch_array($result)) 
         {
             $is_valid = $subscriptions['czy_aktywny'];
+            
             // If found subscription is valid/active then
             if($is_valid == true)
             { 
-                
-                // Change the HTTP status
-                $response = createJsonResponse(302,
-                        "Found valid subscription!",
-                        'valid',
-                        null,
-                        "Registration plate: $number has valid subscription.");
-                
-                return $response;
+                // Set the HTTP status
+                $statusCode = 302;
+                $statusMessage = "Found valid subscription!";
+                $jsonStatus = "Valid";
+                $jsonData = null;
+                $jsonMessage = "Registration plate: $number has valid subscription.";
+
+                break;
             }
         }
     }
+    
+    // Set response configuration.
+    $response = createJsonResponse($statusCode, $statusMessage,
+            $jsonStatus, $jsonData, $jsonMessage);
+    
+    // Return JSON response
+    return $response;
+});
+
+$app->put('/ticket/{plate_number}', function ($plate_number) {
+    
+    // Create a JSON response
+    $response = new Phalcon\Http\Response();
+    $response->setContentType('application/json', 'UTF-8');
+    
+    $statusCode = 0;
+    $statusMessage = "";
+    $jsonStatus = "";
+    $jsonData = null;
+    $jsonMessage = "";
+    
+    
+    // Set response configuration.
+    $response = createJsonResponse($statusCode, $statusMessage,
+            $jsonStatus, $jsonData, $jsonMessage);
     
     // Return JSON response
     return $response;
