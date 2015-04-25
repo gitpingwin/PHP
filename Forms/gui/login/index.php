@@ -32,7 +32,7 @@
       <div class="row">
         <div class="col-md-6">
           <h1>Logowanie</h1>
-          <form>
+          <form id="login-form" method="post">
             <div class="form-group">
               <label for="login">Login</label>
               <input type="text" name="login" class="form-control" id="login" placeholder="Wpisz login">
