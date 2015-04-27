@@ -25,8 +25,8 @@ $app->get('/plate/{number}', function ($number) {
     if($nmbr == 0)
     {
         // Set the HTTP status
-        $statusCode = 404;
-        $statusMessage = "Not found!";
+        $statusCode = 418;
+        $statusMessage = "I'm a teapot";
         $jsonStatus = 'Not found';
         $jsonData = null;
         $jsonMessage = "No registration plate in database!";
@@ -77,8 +77,8 @@ $app->get('/plate/{number}', function ($number) {
 $app->post('/ticket', function() use ($app) {
     
     // Local variables
-    $statusCode = 404;
-    $statusMessage = "";
+    $statusCode = 418;
+    $statusMessage = "I'm a teapot";
     $jsonStatus = "";
     $jsonData = null;
     $jsonMessage = "";
