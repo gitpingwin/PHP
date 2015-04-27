@@ -1,10 +1,14 @@
 <?php
 use Phalcon\Mvc\Micro;
-require 'connect.php';
+require 'connectMy.php';
 
 $app = new Micro();
 
-
+/*
+ * Function checks if in database is registration plate with
+ * specific number ({number}).
+ * Returns 
+ */
 $app->get('/plate/{number}', function ($number) {
         
     // Local variables
@@ -34,9 +38,9 @@ $app->get('/plate/{number}', function ($number) {
     else // Check whether the found car has a valid subscription
     {
         // Set the HTTP status
-        $statusCode = 302;
-        $statusMessage = "Found not valid subscription!";
-        $jsonStatus = 'Not found';
+        $statusCode = 200;
+        $statusMessage = "Not valid";
+        $jsonStatus = 'Not valid';
         $jsonData = null;
         $jsonMessage = "Registration plate: $number has not valid subscription.";
         
@@ -55,8 +59,8 @@ $app->get('/plate/{number}', function ($number) {
             if($is_valid == true)
             { 
                 // Set the HTTP status
-                $statusCode = 302;
-                $statusMessage = "Found valid subscription!";
+                $statusCode = 200;
+                $statusMessage = "Valid";
                 $jsonStatus = "Valid";
                 $jsonData = null;
                 $jsonMessage = "Registration plate: $number has valid subscription.";
@@ -74,7 +78,7 @@ $app->get('/plate/{number}', function ($number) {
     return $response;
 });
 
-$app->post('/ticket', function() use ($app) {
+$app->post('/ticket/', function() use ($app) {
     
     // Local variables
     $statusCode = 418;
