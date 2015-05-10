@@ -27,6 +27,8 @@
   </head>
   <body>
   
+  <div class="user-id"><?php echo $_SESSION["id"]; ?></div>
+  
     <nav class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
@@ -90,7 +92,6 @@
     
     <div id="main-content">
       <div class="row">
-		<?php echo "Twoje id to: " . $_SESSION["id"]; ?>
 		 <h2>Twoje samochody</h2>
           <p>Tabela wyświetla wszystkie samochody klienta  <?php echo " " . $_SESSION["imie"] . " " . $_SESSION["nazwisko"]; ?> </p>  
         <div class="cars-list"></div>   

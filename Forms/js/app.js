@@ -1,4 +1,8 @@
 $(function() {
+	
+   //funkcje uruchamiane po wczytaniu strony
+   list_cars();
+	
   $("#register-form").submit(function(e){	
 	$.post('../php/register.php',$("#register-form").serialize(), function(data) {
 	  if(data == 1) {
@@ -35,16 +39,16 @@ $(function() {
   	e.preventDefault();
   })
   
-  $("#auto_tab").load(function() {
-   $.post('php/auto_tab.php', function() {
-		  location.reload();
-	  }) 
-});
-  
   $("#logout").bind("click", function() {
 	  $.post('php/authorization/logout.php', function() {
 		  location.reload();
 	  }); 
   });
+  
+  //list cars
+  function list_cars() {
+	var id = $(".user-id").text();	
+	$(".cars-list").load("php/list_cars.php",{"id":	id});
+  } 
      
 });
