@@ -16,7 +16,7 @@ while($row = mysql_fetch_array($result)) {
 	echo "<td>" . $row['abonament_id'] . '</td>';
 	echo "<td>" . $row['wazny_od'] . '</td>';   
 	echo "<td>" . $row['wazny_do'] . '</td>';
-	echo "<td><a href='#' class='btn btn-success' data-toggle='modal' data-target='.przedloz-abonament' role='button'>Przedłuż</a></td>";
+	echo "<td><a href='#' class='btn btn-success przedluz' data-aboid='".$row['abonament_id']."' data-toggle='modal' data-target='.przedloz-abonament' role='button'>Przedłuż</a></td>";
 	echo "</tr>";
 	
 }

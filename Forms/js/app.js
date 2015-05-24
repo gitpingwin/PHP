@@ -19,7 +19,9 @@ $(function() {
    $("#auto-form").submit(function(e){	
 	$.post('php/auto.php',$("#auto-form").serialize(), function(data) {
 	  if(data == 1) {
-		  alert("Pomyślnie dodano.")
+		  alert("Pomyślnie dodano.");
+		  $('.dodaj-samochod').modal('hide');
+		  list_cars();
 		}
 	   if(data == 0) {
 		  alert("Taki numer rejestracyjny klient już posiada");
@@ -36,6 +38,26 @@ $(function() {
 	
 	$(".abonament-list").load("php/list_abonamenty.php",{"id":	id});
   });
+  
+    //przedluzenie abonamentu
+  $('body').on('click', 'a.przedluz', function() {
+	//zamknij aktualny modal
+	$('.lista-abonamentow').modal('hide');
+	
+	var abo_id = $(this).data("aboid");
+	$('#abo-renew-form input[name="abonament_id"]').val(abo_id);
+	//otworz modal dodawania nowego abonamentu
+	$('.przedluz-abonament').modal('show');
+  });  
+  
+    //przedluzenie waznosci abonamentu
+   $("#abo-renew-form").submit(function(e){	
+	$.post('php/abo_renew.php',$("#abo-renew-form").serialize(), function(data) {
+		//zamknij aktualny modal
+		$('.przedloz-abonament').modal('hide')
+	}); 
+  	e.preventDefault();
+  })  
   
   //nowy abonament
   $("#new-abo").bind("click", function() {

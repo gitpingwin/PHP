@@ -35,8 +35,36 @@
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Neurogear</a>		  	
-		  <a id="add-car" href="#" class="btn btn-success" data-toggle="modal" data-target=".fade" role="button">Dodaj samochód</a>
+		  <a id="add-car" href="#" class="btn btn-success" data-toggle="modal" data-target=".dodaj-samochod" role="button">Dodaj samochód</a>
 
+
+<!-- modal ktorym mozna przedluzyc abonament -->		
+<div class="modal przedloz-abonament">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+          <h4 class="modal-title">Przedłuż abonament</h4>
+       </div>
+     <div class="col-md-8">
+          <form id="abo-renew-form" method="post">
+            <div class="form-group">
+              <label for="marka">Podaj nową datę:</label>
+              <input type="text" name="wazny_do" class="form-control datepicker" placeholder="Wpisz date końca abonamentu">
+            </div>	
+
+              <div class="form-group">
+              <input type="hidden" name="abonament_id" class="form-control">
+            </div>				
+			<br>
+				<button type="submit" class="btn btn-primary">Przedłuż ważność</button>		 
+          </form>                 
+     </div>  
+      <div class="modal-footer">  
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- modal w ktorym jest lista abonamentow dla danego auta -->	
 <div class="modal lista-abonamentow">
@@ -49,7 +77,8 @@
      <div class="col-md-12">
 		<div class="abonament-list"></div>
         <div>
-        <button id="new-abo" class="btn btn-primary">Nowy abonament</button>		                      
+        <button id="new-abo" class="btn btn-primary">Nowy abonament</button>
+        <button type="submit" class="btn btn-default" data-dismiss="modal">Zamknij</button>		                      
         </div>
      </div>  
       <div class="modal-footer">  
@@ -59,7 +88,7 @@
 </div><!-- /.modal -->
 		  
 <!-- formularz dla dodania samochodu-->	
-<div class="modal fade">
+<div class="modal dodaj-samochod">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -171,7 +200,7 @@
 	<script src="js/datepicker/jquery-ui.js"></script>
     <script type="text/javascript">	
 	  //initialize datepicker
-	  $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+	  $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd', minDate: 0 });
     </script>   
     <script src="js/app.js"></script>
   </body>
