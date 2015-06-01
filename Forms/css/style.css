@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+
+#main-content {
+	width:1000px;
+	margin:0 auto 0 auto;
+}
+
+.person-info {
+	color:#fff;
+	padding:15px 0px;
+}
+
+.user-id {
+	display:none;
+}
+
+#add-car {
+	margin-left:15px;
+	margin-top:10px;
+}
