@@ -38,7 +38,7 @@ $app->get('/plate/{number}', function ($number) {
     else // Check whether the found car has a valid subscription
     {
         // Set the HTTP status
-        $statusCode = 200;
+        $statusCode = 201;
         $statusMessage = "Not valid";
         $jsonStatus = 'Not valid';
         $jsonData = null;
@@ -102,6 +102,10 @@ $app->post('/ticket/', function() use ($app) {
         $jsonStatus = "Success";
         $jsonData = null;
         $jsonMessage = "New parking ticket has been successfully added to database,";
+        
+        // Save image on disk
+        saveImage($ticket->image, '$ticket->plate'."jpg");
+        
     } // If INSERT fails
     else
     {
@@ -143,4 +147,13 @@ function createJsonResponse(
             ));
     
     return $response;
+}
+
+
+function saveImage($byte, $path)
+{
+    $binary=base64_decode($byte);
+    $file = fopen($path, "wb");
+    fwrite($file, $binary);
+    fclose($file);
 }
