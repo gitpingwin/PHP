@@ -78,33 +78,29 @@ $app->get('/plate/{number}', function ($number) {
     return $response;
 });
 
-$app->post('/ticket/', function() use ($app) {
-    
-    // Local variables
-    $statusCode = 418;
-    $statusMessage = "I'm a teapot";
-    $jsonStatus = "";
-    $jsonData = null;
-    $jsonMessage = "";
+$app->post('/ticket', function() use ($app) {
     
     // Get request content
     $ticket =  $app->request->getJsonRawBody();
+    $directory = "/home/krystian/TestDirectory/"; 
     
-    // Insert parking ticket to database.
-    $query = "INSERT INTO mandat(nr_rej, link_do_zdj) VALUES ('$ticket->plate', '$ticket->image')";
-    $result = mysql_query($query) or die(mysql_error());
+    if( strlen($ticket->plate) > 0 && strlen($ticket->image) > 0)
+    {
+        // Insert parking ticket to database.
+        $query = "INSERT INTO mandat(nr_rej, link_do_zdj) VALUES ('$ticket->plate', '$ticket->image')";
+        $result = mysql_query($query) or die(mysql_error());
+    }
     
     // If INSERT success
     if($result == true)
     {
+        // Save image on disk
+        saveImage($ticket->image, $directory.$ticket->plate.".jpg");
         $statusCode = 201;
         $statusMessage = "Success";
         $jsonStatus = "Success";
-        $jsonData = null;
+        $jsonData = $imageLength;
         $jsonMessage = "New parking ticket has been successfully added to database,";
-        
-        // Save image on disk
-        saveImage($ticket->image, '$ticket->plate'."jpg");
         
     } // If INSERT fails
     else
@@ -113,7 +109,7 @@ $app->post('/ticket/', function() use ($app) {
         $statusMessage = "Operation failed";
         $jsonStatus = "Operation failed";
         $jsonData = null;
-        $jsonMessage = "SQL Message: ".$result;
+        $jsonMessage = "Probably bad JSON request syntax";
     }
     
     // Set response configuration.
@@ -151,9 +147,11 @@ function createJsonResponse(
 
 
 function saveImage($byte, $path)
-{
+{  
     $binary=base64_decode($byte);
     $file = fopen($path, "wb");
-    fwrite($file, $binary);
+    $result = fwrite($file, $binary);
     fclose($file);
+    
+    return $result;
 }
