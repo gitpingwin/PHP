@@ -1,6 +1,6 @@
 <?php
 use Phalcon\Mvc\Micro;
-require 'connectMy.php';
+require 'connect.php';
 
 $app = new Micro();
 
